@@ -12,6 +12,6 @@ class	Contact
 	public:
 		Contact();
 		void	set_contact_info();
-		void	display_contacts(int index);
+		void	display_contacts(int index, int mode);
 };
 #endif

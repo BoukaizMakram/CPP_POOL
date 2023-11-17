@@ -1,84 +1,123 @@
 #include "phone.hpp"
 
 Contact::Contact():first_name(""), last_name(""),phone_number(""), darkest_secret("") {}
-Phone_Book::Phone_Book():current_contact(0), display_index(0), max_contacts(8) {}
+Phone_Book::Phone_Book():current_contact(0), display_index(0), max_contacts(2) {}
 
+void	avoid_repition(std::string message, std::string &data, bool phone)
+{
+	data = "";
+	while (data == "")
+	{
+		std::cout << message;
+		getline(std::cin, data);
+		if (!std::cin)
+			exit (0);
+		if (phone)
+		{
+			for (int i = 0; i < data.length(); i++)
+			{
+				if (!isdigit(data[i]))
+				{
+					data = "";
+					std::cout << "Please enter a valid phone number, digits only!" << std::endl;
+				}
+			}
+		}
+	}
+}
 
 void	Contact::set_contact_info()
 {
 	if (!std::cin)
-		return ;
-	while (first_name == "")
+		exit (0);
+	avoid_repition("Enter First Name: ", first_name, false);
+	avoid_repition("Enter Last Name: ", last_name, false);
+	avoid_repition("Enter Nick Name: ", nickname, false);
+	avoid_repition("Enter Phone Number: ", phone_number, true);
+	avoid_repition("Enter Darkest Secret: ", darkest_secret, false);
+}
+
+void	Contact::display_contacts(int index, int mode)
+{
+	if (mode)
 	{
-		std::cout << "Enter First Name: ";
-		getline (std::cin, first_name);
-		if (!std::cin)
-			return ;
+		std::cout << std::setw(10) << index + 1 << "|"
+					<< std::setw(10) << (first_name.length() > 10 ? first_name.substr(0, 9) + "." : first_name) << "|"
+					<< std::setw(10) << (last_name.length() > 10 ? last_name.substr(0, 9) + "." : last_name) << "|"
+					<< std::setw(10) << (nickname.length() > 10 ? nickname.substr(0, 9) + "." : nickname) << "|"
+					<< std::setw(10) << (phone_number.length() > 10 ? phone_number.substr(0, 9) + "." : phone_number) << "|"
+					<< std::setw(10) << (darkest_secret.length() > 10 ? darkest_secret.substr(0, 9) + "." : darkest_secret) << "|"
+					<< std::endl;
 	}
-	while (last_name == "")
+	else
 	{
-		std::cout << "Enter Last Name: ";
-		getline (std::cin, last_name);
-		if (!std::cin)
-			return ;
-	}
-	while (nickname == "")
-	{
-		std::cout << "Enter Nick Name: ";
-		getline (std::cin, nickname);
-		if (!std::cin)
-			return ;
-	}
-	while (phone_number == "")
-	{
-		std::cout << "Enter Phone Number: ";
-		getline (std::cin, phone_number);
-		if (!std::cin)
-			return ;
-	}
-	while (darkest_secret == "")
-	{
-		std::cout << "Enter Darkest Secret: ";
-		getline (std::cin, darkest_secret);
-		if (!std::cin)
-			return ;
+		std::cout << std::setw(10) << index + 1 << "|"
+				<< std::setw(10) << (first_name.length() > 10 ? first_name.substr(0, 9) + "." : first_name) << "|"
+				<< std::setw(10) << (last_name.length() > 10 ? last_name.substr(0, 9) + "." : last_name) << "|"
+				<< std::setw(10) << (nickname.length() > 10 ? nickname.substr(0, 9) + "." : nickname) << "|"
+				<< std::endl;
 	}
 }
 
-void	Contact::display_contacts(int index)
+void	display_table(int mode)
 {
-	std::cout << std::setw(10) << index + 1 << "|"
-			  << std::setw(10) << (first_name.length() > 10 ? first_name.substr(0, 9) + "." : first_name) << "|"
-			  << std::setw(10) << (last_name.length() > 10 ? last_name.substr(0, 9) + "." : last_name) << "|"
-			  << std::setw(10) << (nickname.length() > 10 ? nickname.substr(0, 9) + "." : nickname) << "|"
-			  << std::endl;
+	std::cout << std::endl;
+	if (mode)
+	{
+		std::cout << std::setw(10) << "Index" << "|"
+				<< std::setw(10) << "First Name" << "|"
+				<< std::setw(10) << "Last Name" << "|"
+				<< std::setw(10) << "Nickname" << "|"
+				<< std::setw(10) << "Phone" << "|"
+				<< std::setw(10) << "Secret" << "|"
+				<< std::endl;
+	}
+	else
+	{
+		std::cout << std::setw(10) << "Index" << "|"
+				<< std::setw(10) << "First Name" << "|"
+				<< std::setw(10) << "Last Name" << "|"
+				<< std::setw(10) << "Nickname" << "|"
+				<< std::endl;
+	}
 }
 
 void	Phone_Book::search_contact()
 {
-	int i = 0;
+	int		i = 0;
+	bool	index_printed = false;
 
-	std::cout << std::setw(10) << "Index" << "|"
-			  << std::setw(10) << "First Name" << "|"
-			  << std::setw(10) << "Last Name" << "|"
-			  << std::setw(10) << "Nickname" << "|"
-			  << std::endl;
+	if (display_index > 0)
+		display_table(0);
 	while (i < display_index)
 	{
-		contacts[i].display_contacts(i);
+		contacts[i].display_contacts(i, 0);
 		i++;
 	}
-	std::cout << "Enter the index of the contact you want to display: ";
-	int index;
-	std::cin >> index;
-	if (!std::cin)
-		return ;
-	std::cin.ignore();
-
-	if (index <= display_index && index > 0)
-		contacts[index - 1].display_contacts(index - 1);
-	else
-		std::cout << "Invalid index. Please enter a valid index." << std::endl;
+	std::cout << std::endl;
+	while (index_printed == false)
+	{
+		if (display_index > 0)
+		{
+			std::cout << "Enter the index of the contact you want to display: ";
+			int index;
+			std::cin >> index;
+			if (!std::cin)
+				return ;
+			std::cin.ignore();
+			if (index <= display_index && index > 0)
+			{
+				display_table(1);
+				contacts[index - 1].display_contacts(index - 1, 1);
+				std::cout << std::endl;
+				index_printed = true;
+			}
+			else
+				std::cout << "Index out of range!" << std::endl;
+		}
+		else
+			std::cout << "Contact list is empty" << std::endl << std::endl;
+	}
 }
 
 
@@ -108,30 +147,24 @@ int	main()
 
 	while (1)
 	{
-		std::cout << "Enter command (ADD, SEARCH, EXIT): " << std::endl;
-		std::cin >> command;
-		std::cin.ignore();
 		if (!std::cin)
-			break ;
-		// if (std::cin.eof())
-			// break;
+			exit(0) ;
+		std::cout << "Enter command (ADD, SEARCH, EXIT): " << std::endl;
+		getline(std::cin, command);
+		// std::cin.ignore();
+		if (!std::cin)
+			exit(0) ;
 		if (command == "ADD")
 		{
 			phone_book.add_contact();
-			if (!std::cin)
-				break ;
 		}
 		else if (command == "SEARCH")
 		{
 			phone_book.search_contact();
-			if (!std::cin)
-				break ;
 		}
 		else if (command == "EXIT")
 		{
 			std::cout << "EXIT" << std::endl;
-			if (!std::cin)
-				break ;
 			break;
 		}
 	}
