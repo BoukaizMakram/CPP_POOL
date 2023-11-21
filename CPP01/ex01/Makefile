@@ -2,9 +2,9 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -std=c++98
 CPPFLAGS = -Iinclude
 
-SRC = phone.cpp
-HEADER = phone.hpp PhoneBook.hpp Contact.hpp
-NAME = phone
+SRC = main.cpp zombieHorde.cpp Zombie.cpp
+HEADER = Zombie.hpp
+NAME = Horde
 
 all : $(NAME)
 
