@@ -4,6 +4,8 @@
 
 int main()
 {
+	std::string object = NULL;
+
 	{
 		Weapon club = Weapon("crude spiked club");
 		HumanA bob("Bob", club);

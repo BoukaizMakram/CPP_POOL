@@ -1,61 +1,49 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 
-void replaceAndWriteToFile(const std::string& filename, const std::string& s1, const std::string& s2) {
-    // Open the input file
-    std::ifstream inputFile(filename);
+void	find_and_replace(const std::string& filename, const std::string& s1, const std::string& s2)
+{
+	std::string		filename2 = filename + ".replace";
+	std::ifstream 	input_file(filename.c_str());
+	std::ofstream	output_file(filename2.c_str());
+	std::string		line;
+	size_t			pos = 0;
 
-    // Check if the input file is open
-    if (!inputFile.is_open()) {
-        std::cerr << "Error opening input file: " << filename << std::endl;
-        return;
-    }
+	if(!input_file.is_open() || !output_file.is_open())
+	{
+		std::cerr << "Error with opening input file: " << filename << " or creating output file: " << filename + ".replace" << std::endl;
+		return ;
+	}
 
-    // Create the output file with .replace extension
-    std::ofstream outputFile(filename + ".replace");
-
-    // Check if the output file is open
-    if (!outputFile.is_open()) {
-        std::cerr << "Error creating output file." << std::endl;
-        return;
-    }
-
-    // Process each line of the input file
-    std::string line;
-    while (getline(inputFile, line)) {
-        // Replace occurrences of s1 with s2 in the current line
-        size_t pos = 0;
-        while ((pos = line.find(s1, pos)) != std::string::npos) {
-            line.replace(pos, s1.length(), s2);
-            pos += s2.length();
-        }
-
-        // Write the modified line to the output file
-        outputFile << line << std::endl;
-    }
-
-    // Close the files
-    inputFile.close();
-    outputFile.close();
-
-    std::cout << "File replacement completed. Check " << filename << ".replace" << std::endl;
+	while (getline(input_file, line))
+	{
+		pos = 0;
+		while ((pos = line.find(s1, pos)) != std::string::npos)
+		{
+			line.replace(pos, s1.length(), s2);
+			pos = s2.length();
+		}
+		output_file << line << std::endl;
+	}
+	input_file.close();
+	output_file.close();
+	std::cout << "File replacement completed. Check " << filename << ".replace" << std::endl;
 }
 
-int main(int argc, char* argv[]) {
-    // Check if the correct number of command-line arguments is provided
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <filename> <s1> <s2>" << std::endl;
-        return 1;
-    }
+int	main(int ac, char *av[])
+{
+	std::string	filename;
+	std::string	s1;
+	std::string	s2;
 
-    // Extract command-line arguments
-    std::string filename(argv[1]);
-    std::string s1(argv[2]);
-    std::string s2(argv[3]);
-
-    // Perform replacement and write to a new file
-    replaceAndWriteToFile(filename, s1, s2);
-
-    return 0;
+	if (ac != 4)
+	{
+		std::cerr << "program takes three parameters in the following order: a filename and two strings, s1 and s2." << std::endl;
+		return (1);
+	}
+	filename = av[1];
+	s1 = av[2];
+	s2 = av[3];
+	find_and_replace(filename, s1, s2);
+	return (0);
 }
