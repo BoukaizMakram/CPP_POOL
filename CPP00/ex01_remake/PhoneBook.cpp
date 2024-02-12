@@ -7,21 +7,24 @@ PhoneBook::PhoneBook()
 	current_contact = 0;
 }
 
-void	Contact::set_infos()
+void	insert_input(std::string message, std::string &data)
 {
-	std::string data;
 	data = "";
 	while (data == "")
 	{
-		std::cout << "Enter first name : " << 1;
-		getline(std::cin, data);
+		std::cout << message;
+		std::getline(std::cin, data);
 	}
-	first_name = data;
+}
+
+void	Contact::set_infos()
+{
+	insert_input("First Name: ", first_name);
 }
 
 void	Contact::get_contact_infos()
 {
-	std::cout << first_name << std::endl;
+	std::cout << first_name;
 }
 
 void	PhoneBook::get_phonebook_infos()
@@ -36,7 +39,6 @@ void	PhoneBook::add_contact()
 	if (current_contact == 9)
 		current_contact = 0;
 	contacts[current_contact].set_infos();
-	std::cout << current_contact << std::endl;
 }
 
 int main()
@@ -45,10 +47,10 @@ int main()
 	std::string command;
 
 	command = "";
-	while (command != "EXIT")
+	while (1)
 	{
 		std::cout << "Please enter one of the following three commands : ADD, SEARCH and EXIT" << std::endl;
-		std::cin >> command;
+		std::getline(std::cin, command);
 		if (command == "ADD")
 		{
 			phone.add_contact();
@@ -60,6 +62,7 @@ int main()
 		if (command == "EXIT")
 		{
 			std::cout << "EXIT" << std::endl;
+			break;
 		}
 	}
 }
