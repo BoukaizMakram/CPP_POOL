@@ -6,7 +6,7 @@
 #    By: mboukaiz <mboukaiz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 15:13:12 by mboukaiz          #+#    #+#              #
-#    Updated: 2024/02/11 15:13:52 by mboukaiz         ###   ########.fr        #
+#    Updated: 2024/02/12 18:27:37 by mboukaiz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ CXXFLAGS = -Wall -Wextra -std=c++98
 CPPFLAGS = -Iinclude
 
 SRC = phone.cpp
-HEADER = phone.hpp PhoneBook.hpp Contact.hpp
-NAME = phone
+HEADER = PhoneBook.hpp Contact.hpp
+NAME = PhoneBook
 
 all : $(NAME)
 

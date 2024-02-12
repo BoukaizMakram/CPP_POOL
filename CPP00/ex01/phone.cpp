@@ -6,11 +6,15 @@
 /*   By: mboukaiz <mboukaiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:12:31 by mboukaiz          #+#    #+#             */
-/*   Updated: 2024/02/11 15:12:33 by mboukaiz         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:27:21 by mboukaiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "phone.hpp"
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include "PhoneBook.hpp"
+#include "Contact.hpp"
 
 Contact::Contact():first_name(""), last_name(""),phone_number(""), darkest_secret("") {}
 Phone_Book::Phone_Book():current_contact(0), display_index(0), max_contacts(2) {}
