@@ -1,5 +1,5 @@
 CPP			= c++
-CPPFLAGS	= -Wall -Wextra -std=c++98
+CPPFLAGS	= -Wall -Wextra
 SRCS		= megaphone.cpp
 OBJS		= $(SRCS:.cpp=.o)
 NAME		= megaphone

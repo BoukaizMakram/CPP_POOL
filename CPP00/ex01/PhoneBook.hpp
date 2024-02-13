@@ -6,7 +6,7 @@
 /*   By: mboukaiz <mboukaiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:12:37 by mboukaiz          #+#    #+#             */
-/*   Updated: 2024/02/11 15:13:57 by mboukaiz         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:08:26 by mboukaiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PHONEBOOK_HPP
 # include "Contact.hpp"
 
-class	Phone_Book
+class	PhoneBook
 {
 	private:
 		Contact	contacts[8];
@@ -22,7 +22,7 @@ class	Phone_Book
 		int		display_index;
 		int		max_contacts;
 	public:
-		Phone_Book();
+		PhoneBook();
 		void	add_contact();
 		void	search_contact();
 };
