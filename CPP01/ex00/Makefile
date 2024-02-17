@@ -1,15 +1,14 @@
-CXX = c++
-CXXFLAGS = -Wall -Wextra -std=c++98
-CPPFLAGS = -Iinclude
+CPP = c++
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = main.cpp newZombie.cpp randomChump.cpp Zombie.cpp
+SRCS = main.cpp newZombie.cpp randomChump.cpp Zombie.cpp
 HEADER = Zombie.hpp
 NAME = Zombie
 
 all : $(NAME)
 
-$(NAME) : $(SRC) $(HEADER)
-	$(CXX) $(SRC) -o $(NAME)
+$(NAME) : $(SRCS) $(HEADER)
+	$(CPP) $(SRCS) $(CPPFLAGS) -o $(NAME)
 
 clean :
 	rm -rf $(NAME)

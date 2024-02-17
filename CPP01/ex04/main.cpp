@@ -11,7 +11,8 @@ void	find_and_replace(const std::string& filename, const std::string& s1, const 
 
 	if(!input_file.is_open() || !output_file.is_open())
 	{
-		std::cerr << "Error with opening input file: " << filename << " or creating output file: " << filename + ".replace" << std::endl;
+		std::cerr << "Error with opening input file: " << filename 
+		<< " or creating output file: " << filename + ".replace" << std::endl;
 		return ;
 	}
 

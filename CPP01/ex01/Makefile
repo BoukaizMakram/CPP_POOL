@@ -1,5 +1,5 @@
-CXX = c++
-CXXFLAGS = -Wall -Wextra -std=c++98
+CPP = c++
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 CPPFLAGS = -Iinclude
 
 SRC = main.cpp zombieHorde.cpp Zombie.cpp
@@ -9,7 +9,7 @@ NAME = Horde
 all : $(NAME)
 
 $(NAME) : $(SRC) $(HEADER)
-	$(CXX) $(SRC) -o $(NAME)
+	$(CPP) $(SRC) -o $(NAME)
 
 clean :
 	rm -rf $(NAME)
