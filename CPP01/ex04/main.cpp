@@ -1,50 +1,51 @@
 #include <iostream>
 #include <fstream>
 
-void	find_and_replace(const std::string& filename, const std::string& s1, const std::string& s2)
+int	find_and_replace(std::string in_file_name, std::string s1, std::string s2)
 {
-	std::string		filename2 = filename + ".replace";
-	std::ifstream 	input_file(filename.c_str());
-	std::ofstream	output_file(filename2.c_str());
 	std::string		line;
-	size_t			pos = 0;
+	std::ifstream	in_file(in_file_name);
+	std::ofstream	out_file(in_file_name + ".replace");
 
-	if(!input_file.is_open() || !output_file.is_open())
+	if (!in_file.is_open() || !out_file.is_open()) 
 	{
-		std::cerr << "Error with opening input file: " << filename 
-		<< " or creating output file: " << filename + ".replace" << std::endl;
-		return ;
+    	std::cerr << "Error opening files." << std::endl;
+    	return (0);
 	}
-
-	while (getline(input_file, line))
+	else
 	{
-		pos = 0;
-		while ((pos = line.find(s1, pos)) != std::string::npos)
+		std::cout << "The file \"" 
+		<< in_file_name << ".replace\" has been successfully created." << std::endl;
+		while (getline(in_file, line))
 		{
-			line.replace(pos, s1.length(), s2);
-			pos = s2.length();
+			size_t pos = 0;
+			while (line.find(s1, pos) != std::string::npos)
+			{
+				out_file << line.substr(pos, line.find(s1, pos) - pos);
+				out_file << s2;
+				pos = line.find(s1, pos) + s1.length();
+			}
+			out_file << line.substr(pos) << std::endl;
 		}
-		output_file << line << std::endl;
+		std::cout << "The substitution of \"" << s1 
+		<< "\" with \"" << s2 << "\" has been performed in the file \"" 
+		<< in_file_name << ".replace\"." << std::endl;
 	}
-	input_file.close();
-	output_file.close();
-	std::cout << "File replacement completed. Check " << filename << ".replace" << std::endl;
+	in_file.close();
+	out_file.close();
+	return (1);
 }
 
 int	main(int ac, char *av[])
 {
-	std::string	filename;
-	std::string	s1;
-	std::string	s2;
-
 	if (ac != 4)
 	{
-		std::cerr << "program takes three parameters in the following order: a filename and two strings, s1 and s2." << std::endl;
+		std::cout << "Enter three parameters: FileName, s1, s2." << std::endl
+		<< "The program replaces every occurrence of s1 with s2 in the specified file." 
+		<< std::endl;
 		return (1);
 	}
-	filename = av[1];
-	s1 = av[2];
-	s2 = av[3];
-	find_and_replace(filename, s1, s2);
+	if (!find_and_replace(av[1], av[2], av[3]))
+		return (1);
 	return (0);
 }
