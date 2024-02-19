@@ -5,15 +5,22 @@ int	find_and_replace(std::string in_file_name, std::string s1, std::string s2)
 {
 	std::string		line;
 	std::ifstream	in_file(in_file_name);
-	std::ofstream	out_file(in_file_name + ".replace");
+	std::ofstream	out_file;
 
-	if (!in_file.is_open() || !out_file.is_open()) 
+	if (!in_file.is_open()) 
 	{
-    	std::cerr << "Error opening files." << std::endl;
+    	std::cerr << "Error opening file: " << in_file_name << std::endl;
     	return (0);
 	}
 	else
 	{
+		out_file.open(in_file_name + ".replace");
+		if (!out_file.is_open()) 
+		{
+    		std::cerr << "Error opening file: " << in_file_name + ".replace." << std::endl;
+			in_file.close();
+    		return (0);
+		}
 		std::cout << "The file \"" 
 		<< in_file_name << ".replace\" has been successfully created." << std::endl;
 		while (getline(in_file, line))

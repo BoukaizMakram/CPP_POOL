@@ -1,5 +1,5 @@
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CPP = c++
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRC = main.cpp
 NAME = ex04
@@ -7,7 +7,7 @@ NAME = ex04
 all : $(NAME)
 
 $(NAME) : $(SRC)
-	$(CXX) $(SRC) $(CXXFLAGS) -o $(NAME)
+	$(CPP) $(SRC) $(CPPFLAGS) -o $(NAME)
 
 clean :
 	rm -rf $(NAME)
