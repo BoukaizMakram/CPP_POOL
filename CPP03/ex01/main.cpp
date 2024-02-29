@@ -1,9 +1,9 @@
-#include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 
 int main()
 {
-	ClapTrap		Costa("Costa");
-	ClapTrap		Romero("Romero");
+	ScavTrap		Costa("Costa");
+	ScavTrap		Romero("Romero");
 	unsigned int	attackDamage = 2;
 	unsigned int	repairAmount = 1;
 

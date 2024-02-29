@@ -1,6 +1,6 @@
-NAME 		= ex00
+NAME 		= ex01
 HDRS 		= ClapTrap.hpp
-SRCS 		= ClapTrap.cpp main.cpp
+SRCS 		= ClapTrap.cpp main.cpp ScavTrap.cpp ScavTrap.hpp
 CPP			= c++
 CPPFLAGS	= -Wall -Wextra -Werror
 
