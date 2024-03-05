@@ -1,6 +1,5 @@
 #include "../HDRS/Cat.hpp"
 #include "../HDRS/Dog.hpp"
-#include "../HDRS/WrongCat.hpp"
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -10,6 +9,7 @@
 
 int main()
 {
+	//Animal* animal = new Animal();
 	std::cout << "CREATING ANIMALS : " << GREEN << std::endl;
     Animal	*animals[5] = {new Dog(), new Dog(), new Cat(), new Cat(), NULL};
 	const Animal* j = new Dog();

@@ -1,6 +1,6 @@
 NAME = ex02
-SRCS = SRCS/Animal.cpp SRCS/Dog.cpp SRCS/Cat.cpp SRCS/WrongCat.cpp SRCS/WrongAnimal.cpp SRCS/Brain.cpp SRCS/main.cpp
-HDRS = HDRS/Animal.hpp HDRS/Dog.hpp HDRS/Cat.hpp HDRS/WrongCat.hpp HDRS/WrongAnimal.hpp HDRS/Brain.hpp
+SRCS = SRCS/Animal.cpp SRCS/Dog.cpp SRCS/Cat.cpp SRCS/Brain.cpp SRCS/main.cpp
+HDRS = HDRS/Animal.hpp HDRS/Dog.hpp HDRS/Cat.hpp HDRS/Brain.hpp
 
 CPP = c++
 CPF = -Wall -Wextra -Werror -std=c++98
