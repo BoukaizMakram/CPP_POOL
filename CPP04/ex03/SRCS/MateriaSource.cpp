@@ -20,3 +20,13 @@ MateriaSource& MateriaSource::operator=( const MateriaSource &other )
 {
 	
 }
+
+void	MateriaSource::learnMateria(AMateria *materia)
+{
+
+}
+
+AMateria*	MateriaSource::createMateria(std::string const &type)
+{
+
+}

@@ -2,7 +2,7 @@
 
 AMateria::AMateria()
 {
-
+	
 }
 
 AMateria::AMateria(const AMateria &other)
