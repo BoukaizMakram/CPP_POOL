@@ -38,7 +38,7 @@ int Span::shortestSpan()
     int minSpan = 0;
 
     if (Number.size() < 2)
-        throw std::out_of_range("Span is less than 2");
+        throw std::out_of_range("it should be more than 2 numbers stored to find the shortest span!");
     else
     {
         std::vector<int> sorted = Number;
@@ -58,10 +58,19 @@ int Span::shortestSpan()
 int Span::longestSpan() 
 {
    if (Number.size() < 2)
-        throw std::runtime_error("Not enough numbers for a span!");
+        throw std::runtime_error("it should be more than 2 numbers stored to find the longest span!");
     
     int minVal = *std::min_element(Number.begin(), Number.end());
     int maxVal = *std::max_element(Number.begin(), Number.end());
 
     return maxVal - minVal;
+}
+
+void    Span::addNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+{
+    while(begin != end)
+    {
+        this->addNumber(*begin);
+        begin++;
+    }
 }
