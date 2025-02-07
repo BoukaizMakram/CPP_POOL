@@ -1,9 +1,9 @@
 NAME		=	ex01
 CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-SRC_FILES	=	main.cpp
+SRC_FILES	=	main.cpp Span.cpp
 OBJ_FILES	=	$(SRC_FILES:.cpp=.o)
-HDR_FILES	=	easyfind.hpp
+HDR_FILES	=	Span.hpp
 
 all: $(NAME)
 

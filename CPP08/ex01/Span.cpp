@@ -15,8 +15,7 @@ Span& Span::operator=(const Span &other)
         for (unsigned int i = 0; i < other.Number.size(); i++)
             this->Number[i] = other.Number[i];
     }
-    else
-        return (*this);
+    return (*this);
 }
 
 Span::Span(unsigned int N)
@@ -33,3 +32,36 @@ void Span::addNumber(int Number)
 }
 
 Span::~Span() {}
+
+int Span::shortestSpan() 
+{
+    int minSpan = 0;
+
+    if (Number.size() < 2)
+        throw std::out_of_range("Span is less than 2");
+    else
+    {
+        std::vector<int> sorted = Number;
+        std::sort(sorted.begin(), sorted.end());
+
+        minSpan = sorted[1] - sorted[0];
+        for (size_t i = 0; i < sorted.size() - 1; ++i)
+        {
+            int span = sorted[i + 1] - sorted[i];
+            if (span < minSpan)
+                minSpan = span;
+        }
+        return minSpan;
+    }
+}
+
+int Span::longestSpan() 
+{
+   if (Number.size() < 2)
+        throw std::runtime_error("Not enough numbers for a span!");
+    
+    int minVal = *std::min_element(Number.begin(), Number.end());
+    int maxVal = *std::max_element(Number.begin(), Number.end());
+
+    return maxVal - minVal;
+}

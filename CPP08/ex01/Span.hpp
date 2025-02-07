@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <stdexcept>
+#include <list>
 
 class Span
 {
@@ -12,6 +15,9 @@ class Span
         Span(unsigned int N);
         Span(const Span &other);
         ~Span();
-        Span& operator=(const Span &other);
-        void addNumber(int number);
+
+        Span&   operator=(const Span &other);
+        void    addNumber(int number);
+        int     shortestSpan() ;
+        int     longestSpan() ;
 };
