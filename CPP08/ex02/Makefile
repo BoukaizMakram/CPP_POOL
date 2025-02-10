@@ -3,7 +3,7 @@ CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 SRC_FILES	=	main.cpp
 OBJ_FILES	=	$(SRC_FILES:.cpp=.o)
-HDR_FILES	=	easyfind.hpp
+HDR_FILES	=	MutantStack.hpp
 
 all: $(NAME)
 
