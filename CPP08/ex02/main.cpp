@@ -1,6 +1,4 @@
 #include "MutantStack.hpp"
-#include <list>
-#include <iostream>
 
 template <typename T>
 void printStack(MutantStack<T>& stack) {
