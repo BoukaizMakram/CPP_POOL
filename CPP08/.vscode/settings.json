@@ -45,6 +45,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "span": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "optional": "cpp",
+        "ranges": "cpp"
     }
 }

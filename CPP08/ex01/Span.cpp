@@ -57,7 +57,7 @@ int Span::shortestSpan()
 
 int Span::longestSpan() 
 {
-   if (Number.size() < 2)
+if (Number.size() < 2)
         throw std::runtime_error("it should be more than 2 numbers stored to find the longest span!");
     
     int minVal = *std::min_element(Number.begin(), Number.end());

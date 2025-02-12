@@ -30,15 +30,13 @@ int main() {
     std::cout << "MutantStack contents:" << std::endl;
     printStack(mstack);
     
-    std::stack<int> s(mstack);
-    
     std::cout << "----------------------------" << std::endl;
     
     std::list<int> list;
-    list.push_back(5);
-    list.push_back(17);
-    std::cout << "Last element: " << list.back() << std::endl;
-    list.pop_back();
+    list.push_front(5);
+    list.push_front(17);
+    std::cout << "Last element: " << list.front() << std::endl;
+    list.pop_front();
     std::cout << "List size after pop: " << list.size() << std::endl;
     
     for (int i = 0; i < 4; ++i) list.push_back(values[i]);
