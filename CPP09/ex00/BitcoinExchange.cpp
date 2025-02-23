@@ -22,6 +22,7 @@ BitcoinExchange::BitcoinExchange() {};
 
 BitcoinExchange::BitcoinExchange(std::string database, std::string filename) 
 {
+    int first_line = 0;
     this->filename = filename;
     this->database = database;
     std::string line;
@@ -37,8 +38,8 @@ BitcoinExchange::BitcoinExchange(std::string database, std::string filename)
         std::stringstream ss(line);
         std::string date, valueStr;
         double      value;
-        
-        if (!std::getline(ss, date, ',') || !std::getline(ss, valueStr) || date == "date")
+        first_line++;
+        if (!std::getline(ss, date, ',') || !std::getline(ss, valueStr) ||((date == "date") && (first_line = 1)))
             continue;
         if (!isValidDate(date) && date != "date")
         {
@@ -62,6 +63,7 @@ void BitcoinExchange::processInput()
         std::cerr << "Error: could not open file: " << this->filename << std::endl;
         exit(1);
     }
+    int first_line = 0; // increment this after reading a line, to skip date | value expression in first line.
     while (std::getline(file, line))
     {
         std::stringstream ss(line);
@@ -69,16 +71,22 @@ void BitcoinExchange::processInput()
         double      value;
 
         if (!std::getline(ss, date, '|') || !std::getline(ss, valueStr))
+        {
+            std::cerr << "Error: bad input => " << date << std::endl;
             continue;
-        if (date == "date ")
+        }
+        first_line++;
+        if ((date == "date ") && (valueStr == " value") && first_line == 1)
+        {
             continue ;
+        }
+        date.erase(date.find_last_not_of(" ") + 1);
         std::stringstream valueStream(valueStr);
         valueStream >> value;
-        date.erase(date.find_last_not_of(" ") + 1);
         if (!isValidDate(date))
         {
-            std::cerr << date << " is invalid, please fix this date to be YYYY-MM-DD inside " << filename << " file!" << std::endl;
-            exit(1);
+            std::cerr << "Error: bad input => " << date << std::endl;
+            continue;
         }
         if (value < 0) 
         {
@@ -92,15 +100,19 @@ void BitcoinExchange::processInput()
             continue;
         }
         std::map<std::string, double>::iterator it = map.lower_bound(date);
-        if (it == map.end() || it->first != date) {
-            if (it != map.begin()) {
+        if (it == map.end() || it->first != date) 
+        {
+            if (it != map.begin()) 
+            {
                 --it;
-            } else {
+            } 
+            else
+            {
                 std::cerr << "Error: no available rate for " << date << "\n";
                 continue;
             }
         }
-        std::cout << date << " found in db: " << it->first << " => " << value << " = " << (value * it->second) << "\n";
+        std::cout << date << " => " << value << " = " << (value * it->second) << "\n";
     }
     exit(0);
 }
