@@ -1,9 +1,9 @@
-NAME		=	ex02
+NAME		=	PmergeMe
 CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-SRC_FILES	=	main.cpp
+SRC_FILES	=	main.cpp PmergeMe.cpp
 OBJ_FILES	=	$(SRC_FILES:.cpp=.o)
-HDR_FILES	=	easyfind.hpp
+HDR_FILES	=	PmergeMe.hpp
 
 all: $(NAME)
 
