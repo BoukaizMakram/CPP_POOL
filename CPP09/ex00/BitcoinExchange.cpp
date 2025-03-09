@@ -59,69 +59,114 @@ BitcoinExchange::BitcoinExchange(std::string database, std::string filename)
 
 void BitcoinExchange::processInput()
 {
-    std::ifstream   file(filename.c_str());
-    std::string     line;
-
+    std::ifstream file(filename.c_str());
+    std::string line;
     if (!file)
     {
         std::cerr << "Error: could not open file: " << this->filename << std::endl;
         exit(1);
     }
-    int first_line = 0; // increment this after reading a line, to skip date | value expression in first line.
+    
+    // Check for valid header in the first non-empty line
+    bool header_checked = false;
+    
     while (std::getline(file, line))
     {
-        std::stringstream ss(line);
-        std::string date, valueStr;
-        double      value;
+        // Skip empty lines at the beginning when looking for header
+        if (!header_checked && line.empty())
+            continue;
+            
+        // Check header only once from the first non-empty line
+        if (!header_checked)
+        {
+            header_checked = true;
+            if (line != "date | value")
+            {
+                std::cerr << "Error: header should be date | value" << std::endl;
+                // Process this line as data if it's not empty
+                if (line.empty())
+                    continue;
+            }
+            else
+            {
+                // If proper header found, get next line and continue
+                continue;
+            }
+        }
+        
+        // From here on, process all lines as data
+        // Split the line by '|' and check proper format
+        size_t pos = line.find('|');
+        if (pos == std::string::npos)
+        {
+            std::cerr << "Error: bad input => " << line << std::endl;
+            continue;
+        }
 
-        if (!std::getline(ss, date, '|') || !std::getline(ss, valueStr))
+        // Extract date and value strings, trimming whitespace
+        std::string date = line.substr(0, pos);
+        std::string valueStr = line.substr(pos + 1);
+        
+        // Trim trailing whitespace from date
+        date.erase(date.find_last_not_of(" \t\r\n") + 1);
+        // Trim leading and trailing whitespace from value
+        valueStr.erase(0, valueStr.find_first_not_of(" \t\r\n"));
+        valueStr.erase(valueStr.find_last_not_of(" \t\r\n") + 1);
+
+        // Check for empty parts or additional pipe symbols
+        if (date.empty() || valueStr.empty() || valueStr.find('|') != std::string::npos)
         {
-            std::cerr << "Error: bad input => " << date << std::endl;
+            std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
-        first_line++;
-        if ((date == "date ") && (valueStr == " value") && first_line == 1)
-        {
-            continue ;
-        }
-        else if (first_line == 1)
-        {
-            std::cerr << "Error: header should be date | value" << std::endl;
-            continue;
-        }
-        date.erase(date.find_last_not_of(" ") + 1);
-        std::stringstream valueStream(valueStr);
-        valueStream >> value;
+
+        // Validate date format
         if (!isValidDate(date))
         {
             std::cerr << "Error: bad input => " << date << std::endl;
             continue;
         }
-        if (value < 0) 
+
+        // Convert value to double and validate
+        char* endptr;
+        double value = strtod(valueStr.c_str(), &endptr);
+        
+        // Check if the conversion was successful and used the entire string
+        if (*endptr != '\0')
         {
-            std::cerr << "Error: '" << value << "' is not a positive number.\n";
+            std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
 
-        if (value > 1000) 
+        // Check value range
+        if (value < 0)
         {
-            std::cerr << "Error: '" << value << "' is a too large a number.\n";
+            std::cerr << "Error: not a positive number." << std::endl;
             continue;
         }
-        std::map<std::string, double>::iterator it = map.lower_bound(date);
-        if (it == map.end() || it->first != date) 
+        if (value > 1000)
         {
-            if (it != map.begin()) 
+            std::cerr << "Error: too large a number." << std::endl;
+            continue;
+        }
+
+        // Find the closest exchange rate
+        std::map<std::string, double>::iterator it = map.lower_bound(date);
+        if (it == map.end() || it->first != date)
+        {
+            if (it != map.begin())
             {
                 --it;
-            } 
+            }
             else
             {
-                std::cerr << "Error: no available rate for " << date << "\n";
+                std::cerr << "Error: no available rate for " << date << std::endl;
                 continue;
             }
         }
-        std::cout << date << " => " << value << " = " << (value * it->second) << "\n";
+        
+        // Output the result
+        std::cout << date << " => " << value << " = " << (value * it->second) << std::endl;
     }
 }
 
