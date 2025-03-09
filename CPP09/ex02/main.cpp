@@ -1,29 +1,21 @@
 #include "PmergeMe.hpp"
 
-bool isValidNumber(const char* str) {
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (!isdigit(str[i])) return false;
-    }
-    return true;
-}
-
 int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cerr << "Error: No input provided." << std::endl;
+    PmergeMe sorter;
+    std::vector<int> original_vector;
+    
+    // Parse and validate input
+    if (!sorter.parseInput(argc, argv)) {
+        std::cerr << "Error" << std::endl;
         return 1;
     }
     
-    std::vector<int> input;
-    for (int i = 1; i < argc; i++) {
-        if (!isValidNumber(argv[i])) {
-            std::cerr << "Error: Invalid number '" << argv[i] << "'" << std::endl;
-            return 1;
-        }
-        input.push_back(std::atoi(argv[i]));
-    }
+    original_vector = sorter.getVector();
+    // Sort the input
+    sorter.sort();
     
-    PmergeMe sorter(input);
-    sorter.sortAndMeasure();
+    // Display results
+    sorter.displayResults(original_vector);
     
     return 0;
 }

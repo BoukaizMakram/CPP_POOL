@@ -1,22 +1,24 @@
-NAME		=	PmergeMe
-CXX			=	c++
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
-SRC_FILES	=	main.cpp PmergeMe.cpp
-OBJ_FILES	=	$(SRC_FILES:.cpp=.o)
-HDR_FILES	=	PmergeMe.hpp
+NAME = PmergeMe
+
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+SRCS = main.cpp PmergeMe.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+HDRS = PmergeMe.hpp
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) $(OBJ_FILES) -o $(NAME)
-
-%.o: %.cpp $(HDR_FILES)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(NAME): $(OBJS) $(HDRS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	rm -f $(OBJ_FILES)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

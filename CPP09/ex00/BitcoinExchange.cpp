@@ -39,12 +39,16 @@ BitcoinExchange::BitcoinExchange(std::string database, std::string filename)
         std::string date, valueStr;
         double      value;
         first_line++;
-        if (!std::getline(ss, date, ',') || !std::getline(ss, valueStr) ||((date == "date") && (first_line = 1)))
+        if (!std::getline(ss, date, ',') || !std::getline(ss, valueStr) ||((date == "date") && (first_line == 1)))
             continue;
+        else if (first_line == 1 && date != "date") {
+             std::cerr << "Error: First line detected, header doesn't contain the following format : date,exchange_rate in data.csv" << std::endl;
+             continue;
+        }
         if (!isValidDate(date) && date != "date")
         {
             std::cerr << date << " is invalid, please fix this date to be YYYY-MM-DD inside " << database << " file!" << std::endl;
-            exit(1);
+            continue;
         }
         std::stringstream valueStream(valueStr);
         valueStream >> value;
@@ -80,6 +84,11 @@ void BitcoinExchange::processInput()
         {
             continue ;
         }
+        else if (first_line == 1)
+        {
+            std::cerr << "Error: header should be date | value" << std::endl;
+            continue;
+        }
         date.erase(date.find_last_not_of(" ") + 1);
         std::stringstream valueStream(valueStr);
         valueStream >> value;
@@ -114,7 +123,6 @@ void BitcoinExchange::processInput()
         }
         std::cout << date << " => " << value << " = " << (value * it->second) << "\n";
     }
-    exit(0);
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) 
